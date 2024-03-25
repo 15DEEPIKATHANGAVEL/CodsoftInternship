@@ -1,0 +1,73 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std
+struct Task {
+    string description;
+    bool completed;
+};
+
+void addTask(vector<Task> &tasks, const string &description) {
+    Task task{description, false};
+    tasks.push_back(task);
+    cout << "Task added successfully!\n";
+}
+
+void viewTasks(const std::vector<Task> &tasks) {
+    if (tasks.empty()) {
+        cout << "No tasks to display.\n";
+        return;
+    }
+
+    cout << "Tasks:\n";
+    for (size_t i = 0; i < tasks.size(); ++i) {
+        const Task &task = tasks[i];
+        cout << i + 1 << ". " << (task.completed ? "[X] " : "[ ] ") << task.description << '\n';
+    }
+}
+
+void deleteTask(std::vector<Task> &tasks, size_t index) {
+    if (index >= tasks.size()) {
+        cout << "Invalid task index.\n";
+        return;
+    }
+
+    tasks.erase(tasks.begin() + index);
+    cout << "Task deleted successfully!\n";
+}
+
+int main() {
+    vector<Task> tasks;
+
+    while (true) {
+        cout << "\nChoose an option:\n";
+        cout << "1. Add task\n";
+        cout << "2. View tasks\n";
+        cout << "3. Delete task\n";
+        cout << "4. Exit\n";
+
+        int choice;
+        cin >> choice;
+
+        if (choice == 1) {
+            cin.ignore(); 
+            cout << "Enter task description: ";
+            string description;
+            getline(std::cin, description);
+            addTask(tasks, description);
+        } else if (choice == 2) {
+            viewTasks(tasks);
+        } else if (choice == 3) {
+            cout << "Enter task index to delete: ";
+            size_t index;
+            cin >> index;
+            deleteTask(tasks, index - 1);
+        } else if (choice == 4) {
+            break;
+        } else {
+            cout << "Invalid choice. Please try again.\n";
+        }
+    }
+
+    return 0;
+}
